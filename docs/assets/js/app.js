@@ -43,10 +43,19 @@
     mapa.getPane(nome).style.zIndex = 410 + i * 8;
   });
 
-  var baseClaro = L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    { attribution: '&copy; OpenStreetMap, &copy; CARTO', subdomains: 'abcd', maxZoom: 19 }
-  ).addTo(mapa);
+  // Base cinza-claro da Esri: sem chave de API e sem marca d'agua em dominio
+  // publico, ao contrario do basemap da CARTO. Vem em duas camadas — o fundo
+  // e os rotulos — e so tem tile ate o zoom 16, dai o maxNativeZoom.
+  var ESRI_CANVAS = 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/';
+  var baseClaro = L.layerGroup([
+    L.tileLayer(ESRI_CANVAS + 'World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Base: Esri, HERE, Garmin, &copy; OpenStreetMap',
+      maxNativeZoom: 16, maxZoom: 19
+    }),
+    L.tileLayer(ESRI_CANVAS + 'World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+      maxNativeZoom: 16, maxZoom: 19
+    })
+  ]).addTo(mapa);
 
   var baseSatelite = L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
