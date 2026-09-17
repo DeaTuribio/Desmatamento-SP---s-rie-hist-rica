@@ -2,7 +2,7 @@
 
 Mapa web interativo do desmatamento (supressão de vegetação nativa) no bioma Mata Atlântica dentro do estado de São Paulo, de 2000 a 2025, com os dados oficiais do **PRODES / INPE**.
 
-🔗 **[Ver a aplicação](https://DeaTuribio.github.io/prodes-sp-mapa/)**
+🔗 **[Ver a aplicação](https://deaturibio.github.io/Desmatamento-SP---s-rie-hist-rica/)**
 
 ![Captura da aplicação](docs/assets/img/captura.png)
 
