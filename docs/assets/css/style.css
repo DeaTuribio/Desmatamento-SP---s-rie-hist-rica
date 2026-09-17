@@ -1,0 +1,591 @@
+/* =========================================================
+   PRODES Mata Atlântica — SP
+   CSS puro, sem framework
+   ========================================================= */
+
+:root {
+  --bg: #0e1512;
+  --bg-2: #141d19;
+  --bg-3: #1b2721;
+  --linha: #2a3a32;
+  --txt: #e8f0ec;
+  --txt-2: #9db0a7;
+  --txt-3: #6d8279;
+  --acento: #ff6b4a;
+  --acento-2: #ffb347;
+  --verde: #4fd18b;
+  --uf: #7fd3ff;
+  --sombra: 0 8px 28px rgba(0, 0, 0, .45);
+  --raio: 12px;
+  --fonte: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--fonte);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -.01em; }
+
+a { color: var(--uf); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- topo ---------- */
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--linha);
+}
+
+.topo h1 { font-size: 1.15rem; }
+
+.topo-titulo p {
+  margin: 2px 0 0;
+  font-size: .82rem;
+  color: var(--txt-2);
+}
+
+.topo-titulo strong { color: var(--txt); font-weight: 600; }
+
+.topo-acoes { display: flex; gap: 8px; }
+
+.btn-ghost {
+  font: inherit;
+  font-size: .82rem;
+  color: var(--txt-2);
+  background: transparent;
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .15s, color .15s;
+}
+
+.btn-ghost:hover { border-color: var(--acento); color: var(--txt); }
+
+.btn-solido {
+  font: inherit;
+  background: var(--acento);
+  color: #1a0b06;
+  font-weight: 600;
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 18px;
+  cursor: pointer;
+}
+
+/* ---------- layout ---------- */
+
+.app {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  min-height: 0;
+}
+
+.mapa-wrap { position: relative; min-height: 420px; }
+
+#mapa { position: absolute; inset: 0; background: var(--bg-3); }
+
+/* ---------- linha do tempo ---------- */
+
+.linha-tempo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 22px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(560px, calc(100% - 32px));
+  padding: 12px 18px;
+  background: rgba(14, 21, 18, .92);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  backdrop-filter: blur(6px);
+}
+
+.linha-tempo-corpo { flex: 1; min-width: 0; }
+
+.btn-play {
+  flex: none;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--linha);
+  background: var(--bg-3);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: border-color .15s;
+}
+
+.btn-play:hover { border-color: var(--acento); }
+
+.icone-play {
+  width: 0; height: 0;
+  border-left: 11px solid var(--acento);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  margin-left: 3px;
+}
+
+.btn-play.tocando .icone-play {
+  width: 11px; height: 13px;
+  border: 0;
+  margin-left: 0;
+  background: linear-gradient(to right, var(--acento) 0 4px, transparent 4px 7px, var(--acento) 7px 11px);
+}
+
+#slider {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--acento);
+  cursor: pointer;
+}
+
+#periodo-rotulo {
+  display: block;
+  margin-top: 4px;
+  font-size: .8rem;
+  color: var(--txt-2);
+  font-variant-numeric: tabular-nums;
+}
+
+#periodo-rotulo strong { color: var(--txt); }
+
+/* ---------- caixas sobre o mapa ---------- */
+
+.legenda, .camadas {
+  position: absolute;
+  z-index: 500;
+  background: rgba(14, 21, 18, .92);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  backdrop-filter: blur(6px);
+  font-size: .78rem;
+}
+
+.legenda { left: 12px; bottom: 100px; padding: 10px 14px; }
+.camadas { right: 12px; top: 12px; padding: 4px 14px 10px; }
+
+.legenda h2 {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--txt-3);
+  margin-bottom: 6px;
+}
+
+.legenda ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.legenda li { display: flex; align-items: center; gap: 8px; color: var(--txt-2); }
+
+.chip { width: 14px; height: 14px; border-radius: 3px; flex: none; }
+.chip-ano { background: #ff5a2b; box-shadow: 0 0 5px rgba(255, 90, 43, .8); }
+.chip-acum { background: rgba(226, 214, 96, .5); border: 1px solid #e2d660; }
+.chip-uf { background: transparent; border: 2px solid #ffffff; }
+
+.legenda li.dica {
+  color: var(--txt-3);
+  font-size: .7rem;
+  max-width: 190px;
+  line-height: 1.35;
+  border-top: 1px solid var(--linha);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+/* ---------- correção cromática das camadas WMS ----------
+   O GeoServer devolve as feições no estilo padrão (amarelo) e
+   ignora SLD_BODY. Como o que chega é imagem, cada pane recebe
+   um filtro: o desmatamento do período vira laranja com halo
+   (as feições são minúsculas e sumiriam sem ele), o acumulado
+   fica em amarelo apagado e o limite estadual vira branco. */
+
+.leaflet-ano-pane {
+  filter: hue-rotate(-38deg) saturate(1.7) brightness(1.05)
+          drop-shadow(0 0 2px rgba(255, 70, 30, .95));
+}
+
+.leaflet-acum-pane { filter: saturate(.55) brightness(.95); }
+
+/* visão geral: a mancha é densa, então dispensa o halo */
+.leaflet-geral-pane { filter: hue-rotate(-30deg) saturate(1.4) brightness(1.02); }
+
+.leaflet-uf-pane {
+  filter: invert(1) brightness(1.6) drop-shadow(0 0 1px rgba(0, 0, 0, .9));
+}
+
+.modo-mapa {
+  position: absolute;
+  z-index: 550;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 24px);
+  padding: 7px 8px 7px 14px;
+  font-size: .78rem;
+  color: var(--txt);
+  background: rgba(14, 21, 18, .94);
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+  box-shadow: var(--sombra);
+}
+
+#modo-texto { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.modo-link {
+  flex: none;
+  font: inherit;
+  font-size: .72rem;
+  color: var(--bg);
+  background: var(--uf);
+  border: 0;
+  border-radius: 999px;
+  padding: 4px 11px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.modo-link:hover { filter: brightness(1.12); }
+
+/* realce quando a animação termina e o acumulado entra em cena */
+.modo-mapa.destacado {
+  border-color: var(--acento);
+  animation: pulso 2.2s ease-out;
+}
+
+@keyframes pulso {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 107, 74, .55); }
+  60%  { box-shadow: 0 0 0 14px rgba(255, 107, 74, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 107, 74, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modo-mapa.destacado { animation: none; }
+}
+
+.chip-geral { background: #ff8a4a; }
+
+.legenda li.so-geral { display: none; }
+.legenda.em-geral li.so-geral { display: flex; }
+.legenda.em-geral li.so-periodo { display: none; }
+
+.btn-voltar {
+  position: absolute;
+  z-index: 550;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  font: inherit;
+  font-size: .78rem;
+  color: var(--txt);
+  background: rgba(14, 21, 18, .94);
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+  padding: 7px 16px;
+  cursor: pointer;
+  box-shadow: var(--sombra);
+}
+
+.btn-voltar:hover { border-color: var(--uf); }
+
+.legenda li.chip-li-acum { display: none; }
+.legenda li.chip-li-acum.ativo { display: flex; }
+
+.camadas fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; }
+
+.camadas legend {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--txt-3);
+  padding: 8px 0 4px;
+}
+
+.camadas label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--txt-2);
+  cursor: pointer;
+}
+
+.camadas input { accent-color: var(--acento); cursor: pointer; }
+
+/* ---------- popover de feature ---------- */
+
+.popover-info {
+  position: absolute;
+  z-index: 600;
+  left: 12px;
+  top: 58px;
+  width: 270px;
+  padding: 14px 16px;
+  background: rgba(14, 21, 18, .96);
+  border: 1px solid var(--linha);
+  border-left: 3px solid var(--acento);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  backdrop-filter: blur(6px);
+}
+
+.popover-info h2 {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--txt-3);
+  margin-bottom: 8px;
+}
+
+.popover-info dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: .82rem; }
+.popover-info dt { color: var(--txt-3); }
+.popover-info dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
+.fechar {
+  position: absolute;
+  top: 6px; right: 8px;
+  background: transparent;
+  border: 0;
+  color: var(--txt-3);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fechar:hover { color: var(--txt); }
+
+/* ---------- painel ---------- */
+
+.painel {
+  background: var(--bg-2);
+  border-left: 1px solid var(--linha);
+  padding: 16px;
+  overflow-y: auto;
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.kpi {
+  background: var(--bg-3);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 12px 14px;
+}
+
+.kpi.destaque { grid-column: 1 / -1; border-color: rgba(255, 107, 74, .4); }
+
+.kpi h2 {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--txt-3);
+  font-weight: 600;
+}
+
+.kpi-valor {
+  margin: 6px 0 2px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--txt);
+}
+
+.kpi.destaque .kpi-valor { font-size: 2.1rem; color: var(--acento); }
+
+.kpi-valor small { font-size: .72rem; font-weight: 500; color: var(--txt-3); }
+
+.kpi-nota { margin: 0; font-size: .72rem; color: var(--txt-3); }
+
+.kpi-valor.sobe { color: var(--acento); }
+.kpi-valor.desce { color: var(--verde); }
+
+.bloco {
+  background: var(--bg-3);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 14px;
+}
+
+.bloco-topo { margin-bottom: 10px; }
+.bloco-topo h2 { font-size: .92rem; }
+.bloco-topo p { margin: 2px 0 0; font-size: .74rem; color: var(--txt-3); }
+
+.grafico { width: 100%; }
+.grafico svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+.barra { fill: #3d5147; cursor: pointer; transition: fill .15s; }
+.barra:hover { fill: #577063; }
+.barra.ativa { fill: var(--acento); }
+.barra-alvo { fill: transparent; cursor: pointer; }
+.eixo { stroke: var(--linha); stroke-width: 1; }
+.eixo-txt { fill: var(--txt-3); font-size: 9px; font-family: var(--fonte); }
+.eixo-txt.ativa { fill: var(--acento); font-weight: 700; }
+.grade { stroke: var(--linha); stroke-width: 1; stroke-dasharray: 2 3; }
+.valor-topo { fill: var(--acento); font-size: 10px; font-weight: 700; font-family: var(--fonte); }
+
+.destaque-nota {
+  border-left: 2px solid var(--acento-2);
+  padding-left: 9px;
+  color: var(--txt-2) !important;
+}
+
+.rodape-nota {
+  margin: 8px 0 0;
+  font-size: .7rem;
+  color: var(--txt-3);
+  line-height: 1.4;
+}
+
+/* ---------- ranking ---------- */
+
+.ranking { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+
+.ranking li {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #1f2c26;
+  overflow: hidden;
+  font-size: .82rem;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.ranking li:hover, .ranking li:focus-visible {
+  background: #26352d;
+  outline: 1px solid var(--uf);
+}
+
+.ranking .preenche {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: rgba(255, 107, 74, .22);
+  border-right: 2px solid rgba(255, 107, 74, .55);
+}
+
+.ranking .nome, .ranking .val { position: relative; }
+.ranking .nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ranking .val { font-variant-numeric: tabular-nums; color: var(--txt-2); flex: none; }
+
+/* ---------- diálogo ---------- */
+
+dialog {
+  max-width: 620px;
+  width: calc(100% - 32px);
+  background: var(--bg-2);
+  color: var(--txt);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 24px;
+  box-shadow: var(--sombra);
+}
+
+dialog::backdrop { background: rgba(0, 0, 0, .6); }
+dialog h2 { font-size: 1.1rem; margin-bottom: 10px; }
+dialog h3 { font-size: .84rem; text-transform: uppercase; letter-spacing: .07em; color: var(--txt-3); margin: 16px 0 6px; }
+dialog p, dialog li { font-size: .87rem; color: var(--txt-2); }
+dialog ul { padding-left: 18px; display: grid; gap: 5px; }
+dialog code { background: var(--bg-3); padding: 1px 5px; border-radius: 4px; font-size: .82em; color: var(--acento-2); }
+dialog strong { color: var(--txt); }
+.fonte-dlg { font-size: .76rem !important; color: var(--txt-3) !important; margin-top: 16px; }
+dialog button { margin-top: 14px; }
+
+/* ---------- rodapé ---------- */
+
+.rodape {
+  padding: 10px 20px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--linha);
+  font-size: .72rem;
+  color: var(--txt-3);
+}
+
+.rodape p { margin: 0; }
+.rodape a { color: var(--txt-2); }
+
+/* ---------- Leaflet ---------- */
+
+.leaflet-container { background: var(--bg-3); font-family: var(--fonte); }
+.leaflet-control-attribution {
+  background: rgba(14, 21, 18, .8) !important;
+  color: var(--txt-3) !important;
+  font-size: .65rem !important;
+}
+.leaflet-control-attribution a { color: var(--txt-2) !important; }
+.leaflet-bar a {
+  background: var(--bg-2);
+  color: var(--txt);
+  border-bottom-color: var(--linha);
+}
+.leaflet-bar a:hover { background: var(--bg-3); color: var(--acento); }
+
+.carregando {
+  position: absolute;
+  z-index: 540;
+  top: 102px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 14px;
+  font-size: .74rem;
+  color: var(--txt-2);
+  background: rgba(14, 21, 18, .92);
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+}
+
+/* ---------- responsivo ---------- */
+
+@media (max-width: 980px) {
+  /* no empilhamento o conteúdo é que define a altura: o painel cresce
+     e o rodapé desce junto, em vez de ficar preso ao fim da viewport */
+  .app { grid-template-columns: 1fr; flex: 0 0 auto; min-height: auto; }
+  .mapa-wrap { height: 62vh; min-height: 340px; }
+  .painel { border-left: 0; border-top: 1px solid var(--linha); overflow: visible; }
+  .legenda { display: none; }
+  .camadas { font-size: .72rem; padding: 2px 10px 8px; }
+}
+
+@media (max-width: 560px) {
+  .topo { padding: 10px 14px; }
+  .topo h1 { font-size: 1rem; }
+  .kpis { grid-template-columns: 1fr; }
+  .linha-tempo { bottom: 14px; padding: 10px 14px; }
+  .popover-info { width: calc(100% - 24px); }
+}

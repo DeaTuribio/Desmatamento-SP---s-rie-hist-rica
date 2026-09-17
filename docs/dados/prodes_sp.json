@@ -1,0 +1,86 @@
+{
+  "fonte": "PRODES Mata Atlântica — TerraBrasilis / INPE",
+  "url_fonte": "https://terrabrasilis.dpi.inpe.br/app/dashboard/deforestation/biomes/mata_atlantica/increments",
+  "uf": "SP",
+  "unidade": "km²",
+  "extraido_em": "2026-09-10",
+  "observacao": "Áreas de supressão de vegetação nativa no bioma Mata Atlântica, porção do estado de São Paulo. Os períodos PRODES vão de 1º de agosto a 31 de julho do ano seguinte. Alguns períodos são plurianuais (mapeamento bienal ou quadrienal), por isso a comparação direta entre períodos exige a média anual.",
+  "acumulado": {
+    "ini": "1500-08-10",
+    "fim": "2000-07-31",
+    "ano": 2000,
+    "area": 154090.22,
+    "nMun": 642,
+    "top": [["Morro Agudo", 1200.54], ["Santo Antônio do Aracanguá", 1155.08], ["Presidente Epitácio", 1152.07], ["Mirante do Paranapanema", 1131.29], ["Araçatuba", 1100.6], ["São Paulo", 1097.51], ["Teodoro Sampaio", 1085], ["Piracicaba", 978.75], ["Cunha", 973.18], ["Capão Bonito", 936.48], ["Marília", 931.8], ["Pereira Barreto", 913.43], ["Itápolis", 907.96], ["Castilho", 886.8], ["Andradina", 882.04]]
+  },
+  "periodos": [
+    {
+      "ini": "2000-08-01", "fim": "2004-07-31", "ano": 2004, "area": 1181.32, "nMun": 613,
+      "top": [["Barra do Chapéu", 31.63], ["Barra do Turvo", 25.97], ["Apiaí", 25.23], ["Eldorado", 23.09], ["Itaberá", 22.05], ["Itapirapuã Paulista", 21.83], ["Ribeirão Branco", 21.77], ["Registro", 21.05], ["São José dos Campos", 20.86], ["Ribeira", 19.65], ["Sete Barras", 19.07], ["Iporanga", 18.92], ["Itaoca", 17.4], ["Morro Agudo", 17.39], ["Cajati", 15.9]]
+    },
+    {
+      "ini": "2004-08-01", "fim": "2006-07-31", "ano": 2006, "area": 695.66, "nMun": 574,
+      "top": [["Barra do Turvo", 87.89], ["Itaberá", 20.48], ["Itapirapuã Paulista", 15.75], ["Cajati", 15.43], ["Eldorado", 14.84], ["Iguape", 13.35], ["Miracatu", 9.86], ["Ibiúna", 9.73], ["Jacupiranga", 9.11], ["Apiaí", 9.09], ["Barra do Chapéu", 9.03], ["Registro", 8.86], ["Morro Agudo", 8.01], ["Ribeira", 7.89], ["Piracicaba", 7.39]]
+    },
+    {
+      "ini": "2006-08-01", "fim": "2008-07-31", "ano": 2008, "area": 197.45, "nMun": 511,
+      "top": [["Paraibuna", 10.06], ["Cunha", 7.24], ["Iguape", 5.14], ["Jambeiro", 3.43], ["Natividade da Serra", 3.1], ["Barra do Chapéu", 2.87], ["Redenção da Serra", 2.84], ["Silveiras", 2.49], ["Sete Barras", 2.46], ["Morro Agudo", 2.44], ["Itapirapuã Paulista", 2.43], ["Juquiá", 2.33], ["Mococa", 2.32], ["São Bernardo do Campo", 2.28], ["Bananal", 2]]
+    },
+    {
+      "ini": "2008-08-01", "fim": "2010-07-31", "ano": 2010, "area": 240.32, "nMun": 500,
+      "top": [["Barra do Turvo", 9.01], ["Juquiá", 8.79], ["Jacupiranga", 8.49], ["Eldorado", 7.74], ["Registro", 7.61], ["Paraibuna", 6.67], ["Sete Barras", 6.66], ["Barra do Chapéu", 6.59], ["Cajati", 5.58], ["Ribeira", 4.89], ["Apiaí", 4.76], ["Iguape", 4.28], ["Piracicaba", 4.16], ["Iporanga", 3.73], ["Itapirapuã Paulista", 3.72]]
+    },
+    {
+      "ini": "2010-08-01", "fim": "2011-07-31", "ano": 2011, "area": 55.11, "nMun": 322,
+      "top": [["Rio Claro", 6.86], ["Suzano", 1.39], ["Barra do Chapéu", 1.22], ["Paraibuna", 1.21], ["Barra do Turvo", 1.17], ["Sorocaba", 1.12], ["Cunha", 1.08], ["Piracicaba", 0.88], ["Paulo de Faria", 0.84], ["Mogi das Cruzes", 0.83], ["Apiaí", 0.78], ["Nazaré Paulista", 0.77], ["Santos", 0.71], ["Barra Bonita", 0.66], ["Piedade", 0.63]]
+    },
+    {
+      "ini": "2011-08-01", "fim": "2013-07-31", "ano": 2013, "area": 104.99, "nMun": 458,
+      "top": [["Barra do Chapéu", 4.76], ["Anhembi", 3.65], ["Itapirapuã Paulista", 3.6], ["São Pedro", 3.42], ["Guapiara", 2.69], ["Ribeirão Branco", 2.44], ["Barra do Turvo", 2.22], ["Apiaí", 1.78], ["Eldorado", 1.71], ["Palestina", 1.7], ["Pedregulho", 1.53], ["Ribeira", 1.27], ["Itápolis", 1.22], ["São João da Boa Vista", 1.21], ["Suzano", 1.17]]
+    },
+    {
+      "ini": "2013-08-01", "fim": "2014-07-31", "ano": 2014, "area": 75.28, "nMun": 386,
+      "top": [["Barra do Turvo", 4.46], ["Itapirapuã Paulista", 2.52], ["Restinga", 2.38], ["Eldorado", 1.94], ["Apiaí", 1.92], ["Ribeira", 1.74], ["Barra do Chapéu", 1.6], ["Iporanga", 1.44], ["Descalvado", 1.3], ["Pitangueiras", 1.08], ["Iguape", 1.01], ["Salmourão", 0.9], ["Guarulhos", 0.81], ["Ribeirão Branco", 0.81], ["Nova Campina", 0.8]]
+    },
+    {
+      "ini": "2014-08-01", "fim": "2016-07-31", "ano": 2016, "area": 55.18, "nMun": 361,
+      "top": [["Itapirapuã Paulista", 2.18], ["Itápolis", 1.57], ["Piedade", 1.26], ["Miracatu", 1.14], ["Porto Ferreira", 1.08], ["Iguape", 1.06], ["Cunha", 0.87], ["Jardinópolis", 0.79], ["Jacupiranga", 0.75], ["Mococa", 0.75], ["Paraibuna", 0.75], ["Ibitinga", 0.73], ["Apiaí", 0.72], ["Ibiúna", 0.68], ["São Paulo", 0.68]]
+    },
+    {
+      "ini": "2016-08-01", "fim": "2017-07-31", "ano": 2017, "area": 63.86, "nMun": 272,
+      "top": [["Registro", 3.06], ["Ribeira", 2.61], ["Barra do Turvo", 2.28], ["Apiaí", 2.21], ["Juquiá", 2.1], ["Sete Barras", 1.76], ["Jacupiranga", 1.7], ["Barra do Chapéu", 1.65], ["Itapirapuã Paulista", 1.56], ["São José do Barreiro", 1.44], ["São Paulo", 1.2], ["Ibiúna", 1.07], ["Cunha", 0.98], ["Pariquera-Açu", 0.93], ["Itaoca", 0.87]]
+    },
+    {
+      "ini": "2017-08-01", "fim": "2018-07-31", "ano": 2018, "area": 40, "nMun": 313,
+      "top": [["Barra do Turvo", 2.32], ["Eldorado", 1.19], ["Panorama", 0.96], ["Mococa", 0.94], ["Ribeira", 0.91], ["Apiaí", 0.9], ["Sete Barras", 0.88], ["São Pedro", 0.77], ["Paulicéia", 0.76], ["Registro", 0.73], ["Castilho", 0.7], ["Iporanga", 0.66], ["Jacupiranga", 0.56], ["Mogi das Cruzes", 0.52], ["Barra do Chapéu", 0.52]]
+    },
+    {
+      "ini": "2018-08-01", "fim": "2019-07-31", "ano": 2019, "area": 25.34, "nMun": 338,
+      "top": [["Barra do Turvo", 0.53], ["São Paulo", 0.47], ["Itapirapuã Paulista", 0.41], ["Piraju", 0.35], ["Itaberá", 0.35], ["Campinas", 0.33], ["Paulicéia", 0.33], ["Pontal", 0.3], ["Iguape", 0.28], ["Jacupiranga", 0.28], ["Suzano", 0.27], ["Paranapanema", 0.27], ["Miracatu", 0.25], ["Cotia", 0.25], ["Piedade", 0.24]]
+    },
+    {
+      "ini": "2019-08-01", "fim": "2020-07-31", "ano": 2020, "area": 30.63, "nMun": 312,
+      "top": [["Botucatu", 0.98], ["São Pedro", 0.93], ["Campina do Monte Alegre", 0.76], ["Barra do Turvo", 0.63], ["Paraibuna", 0.63], ["São Paulo", 0.63], ["Guaíra", 0.54], ["Monte Alto", 0.51], ["Itápolis", 0.48], ["Morro Agudo", 0.48], ["Cajati", 0.45], ["Itapetininga", 0.44], ["Sete Barras", 0.41], ["Cunha", 0.4], ["Santa Maria da Serra", 0.38]]
+    },
+    {
+      "ini": "2020-08-01", "fim": "2021-07-31", "ano": 2021, "area": 22.84, "nMun": 312,
+      "top": [["São Paulo", 1.25], ["Cotia", 0.67], ["Mogi das Cruzes", 0.47], ["Descalvado", 0.45], ["Guarulhos", 0.43], ["Paulicéia", 0.42], ["Itapecerica da Serra", 0.4], ["Novo Horizonte", 0.35], ["Sud Mennucci", 0.34], ["Itapirapuã Paulista", 0.31], ["Suzano", 0.3], ["Praia Grande", 0.28], ["Santo Antônio do Aracanguá", 0.28], ["Mairinque", 0.27], ["Campinas", 0.26]]
+    },
+    {
+      "ini": "2021-08-01", "fim": "2022-07-31", "ano": 2022, "area": 21.81, "nMun": 188,
+      "top": [["Ibitinga", 3.04], ["Ibiúna", 0.64], ["São Paulo", 0.62], ["Piedade", 0.47], ["Registro", 0.45], ["Tarumã", 0.44], ["Barra do Turvo", 0.42], ["Pontal", 0.41], ["Cotia", 0.4], ["Cajati", 0.39], ["Itapecerica da Serra", 0.39], ["São José do Rio Pardo", 0.35], ["Iporanga", 0.35], ["Itu", 0.35], ["Praia Grande", 0.34]]
+    },
+    {
+      "ini": "2022-08-01", "fim": "2023-07-31", "ano": 2023, "area": 10.78, "nMun": 174,
+      "top": [["Registro", 0.76], ["Novo Horizonte", 0.54], ["São Sebastião", 0.48], ["Pariquera-Açu", 0.39], ["Eldorado", 0.37], ["Barra do Turvo", 0.36], ["Iporanga", 0.29], ["Cajati", 0.28], ["São Paulo", 0.22], ["Cotia", 0.19], ["Guapiara", 0.18], ["Mococa", 0.17], ["Piracaia", 0.15], ["Ribeira", 0.15], ["Itapecerica da Serra", 0.15]]
+    },
+    {
+      "ini": "2023-08-01", "fim": "2024-07-31", "ano": 2024, "area": 7.54, "nMun": 136,
+      "top": [["Castilho", 0.37], ["Brodowski", 0.25], ["Cunha", 0.25], ["São José do Barreiro", 0.22], ["Campinas", 0.2], ["Novo Horizonte", 0.19], ["Taboão da Serra", 0.18], ["Guarulhos", 0.18], ["Apiaí", 0.18], ["São José dos Campos", 0.17], ["Jardinópolis", 0.16], ["Embu das Artes", 0.16], ["Jacupiranga", 0.15], ["Joanópolis", 0.14], ["São Bernardo do Campo", 0.14]]
+    },
+    {
+      "ini": "2024-08-01", "fim": "2025-07-31", "ano": 2025, "area": 3.97, "nMun": 108,
+      "top": [["Registro", 0.19], ["Barueri", 0.15], ["Eldorado", 0.12], ["Embu das Artes", 0.12], ["Campinas", 0.11], ["Atibaia", 0.11], ["Cotia", 0.11], ["Miracatu", 0.1], ["São Paulo", 0.1], ["Joanópolis", 0.09], ["Morro Agudo", 0.09], ["Itapirapuã Paulista", 0.08], ["Juquitiba", 0.07], ["Suzano", 0.06], ["Jaboticabal", 0.06]]
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desmatamento na Mata Atlântica paulista — PRODES</title>
+<meta name="description" content="Mapa interativo do desmatamento na Mata Atlântica em São Paulo, com dados oficiais do PRODES/INPE de 2000 a 2025.">
+<link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-titulo">
+    <h1>Mata Atlântica paulista</h1>
+    <p>Supressão de vegetação nativa mapeada pelo <strong>PRODES</strong> — INPE</p>
+  </div>
+  <div class="topo-acoes">
+    <button id="btn-sobre" class="btn-ghost" type="button" aria-haspopup="dialog">Sobre o projeto</button>
+    <a class="btn-ghost" href="https://terrabrasilis.dpi.inpe.br/app/dashboard/deforestation/biomes/mata_atlantica/increments" target="_blank" rel="noopener">Fonte oficial ↗</a>
+  </div>
+</header>
+
+<main class="app">
+
+  <section class="mapa-wrap" aria-label="Mapa">
+    <div id="mapa"></div>
+
+    <div class="linha-tempo" role="group" aria-label="Controle de período">
+      <button id="btn-play" class="btn-play" type="button" aria-label="Reproduzir série temporal">
+        <span class="icone-play" aria-hidden="true"></span>
+      </button>
+      <div class="linha-tempo-corpo">
+        <label class="sr-only" for="slider">Período PRODES</label>
+        <input type="range" id="slider" min="0" max="16" value="16" step="1" list="marcas">
+        <datalist id="marcas"></datalist>
+        <output id="periodo-rotulo" for="slider">—</output>
+      </div>
+    </div>
+
+    <div class="modo-mapa" id="modo-mapa">
+      <span id="modo-texto">—</span>
+      <button type="button" id="modo-trocar" class="modo-link">ver um período</button>
+    </div>
+
+    <button id="btn-voltar" class="btn-voltar" type="button" hidden>↩ Ver o estado inteiro</button>
+
+    <div class="legenda" id="legenda">
+      <h2>Legenda</h2>
+      <ul>
+        <li class="so-periodo"><span class="chip chip-ano"></span> Desmatamento do período</li>
+        <li class="so-geral"><span class="chip chip-geral"></span> Acumulado 2000–2025 (todos os períodos)</li>
+        <li class="chip-li-acum"><span class="chip chip-acum"></span> Já desmatado até 2000</li>
+            <li><span class="chip chip-uf"></span> Limite de SP no bioma</li>
+        <li class="dica">Os polígonos são pequenos: use o ranking ou aproxime o zoom.</li>
+      </ul>
+    </div>
+
+    <div class="camadas" id="camadas">
+      <fieldset>
+        <legend>Camadas</legend>
+        <label title="Tudo que já havia sido desmatado antes do monitoramento anual começar"><input type="checkbox" id="ck-acumulado"> Já desmatado até 2000</label>
+        <label><input type="checkbox" id="ck-uf" checked> Limite estadual</label>
+        <label><input type="checkbox" id="ck-satelite"> Imagem de satélite</label>
+      </fieldset>
+    </div>
+
+    <aside class="popover-info" id="info" hidden aria-live="polite">
+      <button class="fechar" id="info-fechar" type="button" aria-label="Fechar">×</button>
+      <h2>Polígono selecionado</h2>
+      <dl id="info-corpo"></dl>
+    </aside>
+  </section>
+
+  <section class="painel" aria-label="Indicadores">
+
+    <div class="kpis">
+      <article class="kpi destaque">
+        <h2>Área desmatada no período</h2>
+        <p class="kpi-valor"><span id="kpi-area">—</span> <small>km²</small></p>
+        <p class="kpi-nota" id="kpi-periodo">—</p>
+      </article>
+      <article class="kpi">
+        <h2>Média anual</h2>
+        <p class="kpi-valor"><span id="kpi-media">—</span> <small>km²/ano</small></p>
+        <p class="kpi-nota" id="kpi-anos">—</p>
+      </article>
+      <article class="kpi">
+        <h2>Municípios atingidos</h2>
+        <p class="kpi-valor"><span id="kpi-mun">—</span></p>
+        <p class="kpi-nota">de 642 no bioma em SP</p>
+      </article>
+      <article class="kpi">
+        <h2>Variação</h2>
+        <p class="kpi-valor"><span id="kpi-var">—</span></p>
+        <p class="kpi-nota">na média anual, ante o período anterior</p>
+      </article>
+    </div>
+
+    <article class="bloco">
+      <header class="bloco-topo">
+        <h2>Média anual por período</h2>
+        <p>km²/ano — clique numa barra para ir ao período</p>
+      </header>
+      <div id="grafico" class="grafico"></div>
+      <p class="rodape-nota">Períodos plurianuais foram divididos pelo número de anos, para comparação justa.</p>
+      <p class="rodape-nota destaque-nota" id="nota-acumulado">—</p>
+    </article>
+
+    <article class="bloco">
+      <header class="bloco-topo">
+        <h2>Municípios mais afetados</h2>
+        <p id="ranking-legenda">—</p>
+      </header>
+      <ol class="ranking" id="ranking"></ol>
+    </article>
+
+  </section>
+</main>
+
+<dialog id="dlg-sobre">
+  <h2>Sobre o projeto</h2>
+  <p>Aplicação de mapa interativo que combina os polígonos oficiais do <strong>PRODES Mata Atlântica</strong>, servidos por WMS pelo GeoServer do TerraBrasilis/INPE, com uma série histórica agregada para o estado de São Paulo.</p>
+  <h3>Como funciona</h3>
+  <ul>
+    <li>Os polígonos de desmatamento vêm por <strong>WMS</strong>, filtrados no servidor por ano e por estado via <code>CQL_FILTER</code> — nada de dado pesado no repositório.</li>
+    <li>Cada troca de período usa <strong>duas camadas alternadas</strong>: a nova só substitui a anterior depois de carregada, para o mapa não piscar durante a animação. Durante o play, o período seguinte é buscado em segundo plano enquanto o atual está na tela.</li>
+    <li>A aplicação abre no <strong>acumulado 2000–2025</strong>, com tiles prontos do GeoWebCache do INPE (~400&nbsp;ms): todos os períodos somados. O cache não aceita filtro de ano, então escolher um período — ou aproximar o zoom — troca para a camada WMS desenhada na hora. Ao fim da animação o mapa volta ao acumulado, fechando a leitura da série.</li>
+    <li>O tamanho do tile foi escolhido por medição contra o servidor do INPE, na vista do estado: 24&nbsp;tiles de 256&nbsp;px levaram 1290&nbsp;ms, 6&nbsp;tiles de 512&nbsp;px levaram 930&nbsp;ms e uma imagem única levou 2470&nbsp;ms — o servidor desenha uma requisição por vez, então vale dividir em poucas chamadas paralelas.</li>
+    <li>O servidor tem a estilização dinâmica desativada — <code>SLD_BODY</code> é ignorado e tudo volta em amarelo. Como a resposta é uma imagem, a cor é corrigida no cliente, com filtros CSS aplicados a cada <em>pane</em> do Leaflet.</li>
+    <li>O clique no mapa consulta o <strong>GetFeatureInfo</strong> e devolve os atributos do polígono: ano, área, data da imagem, satélite e sensor.</li>
+    <li>Clicar num município do ranking busca seu limite por <strong>WFS</strong> e leva o mapa até ele — os polígonos anuais são pequenos demais para se enxergar na escala do estado.</li>
+    <li>O gráfico e o ranking usam um JSON agregado a partir do painel oficial do PRODES, versionado junto ao código.</li>
+    <li>Front-end em <strong>HTML, CSS e JavaScript puros</strong>, com Leaflet embarcado. Sem framework, sem build, sem back-end. O gráfico é SVG desenhado à mão.</li>
+  </ul>
+  <h3>Leitura dos dados</h3>
+  <p>O ano PRODES vai de 1º de agosto a 31 de julho do ano seguinte. Até 2016 o mapeamento da Mata Atlântica foi feito em intervalos plurianuais, por isso os totais desses períodos não são comparáveis diretamente aos anuais — o gráfico mostra a média anual para contornar isso.</p>
+  <p class="fonte-dlg">Dados: INPE/TerraBrasilis, PRODES Mata Atlântica. Extraídos em setembro de 2026.</p>
+  <button id="dlg-fechar" class="btn-solido" type="button">Fechar</button>
+</dialog>
+
+<footer class="rodape">
+  <p>Dados: <a href="https://terrabrasilis.dpi.inpe.br/" target="_blank" rel="noopener">PRODES / TerraBrasilis — INPE</a>. Mapa base © OpenStreetMap, © CARTO. Imagem: Esri.</p>
+</footer>
+
+<script src="assets/vendor/leaflet/leaflet.js"></script>
+<script src="assets/js/grafico.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+services:
+  prodes-sp-mapa:
+    build: .
+    container_name: prodes-sp-mapa
+    ports:
+      - "8080:80"
+    restart: unless-stopped
