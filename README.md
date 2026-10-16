@@ -18,6 +18,10 @@ Mapa web interativo do desmatamento (supressão de vegetação nativa) no bioma 
 - **Camadas de contexto** — desmatamento acumulado até 2000, limite estadual dentro do bioma e imagem de satélite.
 - **Permalink** — o período selecionado fica na URL (`?p=2018`).
 
+## Diagrama da aplicação
+
+![Diagrama da aplicação](diagram_desm_sp.png)
+
 ## Decisões técnicas
 
 | Decisão | Por quê |
