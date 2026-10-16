@@ -307,7 +307,7 @@ classDiagram
     DadosPRODES --> Periodo
 ```
 
-`scripts/dados/prodes_sp.json` traz 17 períodos PRODES e um bloco `acumulado`.
+`docs/dados/prodes_sp.json` traz 17 períodos PRODES e um bloco `acumulado`.
 
 ### Dois campos chamados "ano"
 
