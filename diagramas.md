@@ -355,7 +355,3 @@ Mermaid, e não PNG rasterizado direto — assim a imagem mantém resolução.
 
 O `diagram_desm_sp.png` na raiz do repositório continua servindo de visão geral
 para quem abre o projeto sem ler código.
-
-Antes de commitar, confira o caminho do JSON na seção 7 (`scripts/dados/` vs
-`docs/dados/`) — o README descreve a pasta como `docs/`, mas o `app.js` busca o
-arquivo em `dados/prodes_sp.json`, relativo à página. Ajuste para o caminho real.
