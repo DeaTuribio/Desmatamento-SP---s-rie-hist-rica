@@ -62,8 +62,139 @@
     { attribution: 'Imagem: Esri, Maxar, Earthstar Geographics', maxZoom: 18 }
   );
 
+  /* ---------------------------------------------------------
+     1a. Recorte pelo limite do estado
+     ---------------------------------------------------------
+     O cache do INPE (visão geral) não aceita filtro e devolve o
+     bioma inteiro — PR, MG, RJ... E mesmo as camadas WMS com
+     state='SP' pedem tiles para toda a tela, inclusive onde não
+     há nada de SP. Aqui cada tile:
+       1. só é pedido se cruzar o limite de SP (fora dele, nenhuma
+          requisição sai do navegador);
+       2. é desenhado num <canvas> recortado pelo polígono do estado.
+     O limite (IBGE, simplificado a ~20 m) está em dados/limite_sp.geojson.
+     --------------------------------------------------------- */
+
+  var LIMITES_SP = L.latLngBounds([-25.32, -53.12], [-19.77, -44.15]);
+
+  // anéis projetados no zoom 0 (pixels Web Mercator) + caixa de cada um
+  var limiteSP = fetch('dados/limite_sp.geojson')
+    .then(function (r) { return r.json(); })
+    .then(function (gj) {
+      var aneis = [];
+      gj.features.forEach(function (f) {
+        var polis = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+        polis.forEach(function (poli) {
+          poli.forEach(function (anel) {
+            var pts = anel.map(function (c) { return L.CRS.EPSG3857.latLngToPoint(L.latLng(c[1], c[0]), 0); });
+            aneis.push({ pts: pts, caixa: L.bounds(pts) });
+          });
+        });
+      });
+      return aneis;
+    })
+    .catch(function (e) {
+      console.warn('Limite de SP indisponível; camadas sem recorte.', e);
+      return null;
+    });
+
+  // o segmento a–b cruza o retângulo r? (Liang–Barsky)
+  function segmentoNoRet(a, b, r) {
+    var t0 = 0, t1 = 1, dx = b.x - a.x, dy = b.y - a.y;
+    var p = [-dx, dx, -dy, dy];
+    var q = [a.x - r.min.x, r.max.x - a.x, a.y - r.min.y, r.max.y - a.y];
+    for (var i = 0; i < 4; i++) {
+      if (p[i] === 0) { if (q[i] < 0) return false; continue; }
+      var t = q[i] / p[i];
+      if (p[i] < 0) { if (t > t1) return false; if (t > t0) t0 = t; }
+      else { if (t < t0) return false; if (t < t1) t1 = t; }
+    }
+    return true;
+  }
+
+  function pontoNoAnel(pt, pts) {
+    var dentro = false;
+    for (var i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+      if ((pts[i].y > pt.y) !== (pts[j].y > pt.y) &&
+          pt.x < (pts[j].x - pts[i].x) * (pt.y - pts[i].y) / (pts[j].y - pts[i].y) + pts[i].x) dentro = !dentro;
+    }
+    return dentro;
+  }
+
+  // anéis que tocam o retângulo (em pixels do zoom 0); vazio = tile fora de SP
+  function aneisNoTile(aneis, ret) {
+    var centro = ret.getCenter();
+    return aneis.filter(function (a) {
+      if (!a.caixa.intersects(ret)) return false;
+      if (pontoNoAnel(centro, a.pts)) return true;
+      for (var i = 1; i < a.pts.length; i++) {
+        if (segmentoNoRet(a.pts[i - 1], a.pts[i], ret)) return true;
+      }
+      return false;
+    });
+  }
+
+  /* Substitui o <img> do tile por um <canvas> recortado. Vale para
+     L.TileLayer e L.TileLayer.WMS — getTileUrl continua o de cada um,
+     então setParams, eventos 'load' e opacidade seguem funcionando. */
+  var RecorteSP = {
+    createTile: function (coords, done) {
+      var camada = this;
+      // tam: área do tile no mapa; nativo: pixels da imagem. Diferem quando
+      // o zoom passa do maxNativeZoom (o Leaflet estica o tile).
+      var tam = this.getTileSize().x;
+      var nativo = this.options.tileSize;
+      var canvas = L.DomUtil.create('canvas', 'leaflet-tile');
+      canvas.width = canvas.height = nativo;
+      canvas.setAttribute('role', 'presentation');
+
+      limiteSP.then(function (aneis) {
+        var escala = Math.pow(2, coords.z);          // zoom 0 → zoom do tile
+        var ox = coords.x * tam, oy = coords.y * tam;
+        var k = nativo / tam;
+        var alvo = null;
+
+        if (aneis) {
+          var ret = L.bounds(
+            L.point(ox / escala, oy / escala),
+            L.point((ox + tam) / escala, (oy + tam) / escala)
+          );
+          alvo = aneisNoTile(aneis, ret);
+          if (!alvo.length) { done(null, canvas); return; }   // fora de SP: nem pede
+        }
+
+        var img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function () {
+          var ctx = canvas.getContext('2d');
+          if (alvo) {
+            ctx.beginPath();
+            alvo.forEach(function (a) {
+              a.pts.forEach(function (p, i) {
+                var x = (p.x * escala - ox) * k, y = (p.y * escala - oy) * k;
+                if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
+              });
+              ctx.closePath();
+            });
+            ctx.clip('evenodd');
+          }
+          ctx.drawImage(img, 0, 0, nativo, nativo);
+          done(null, canvas);
+        };
+        img.onerror = function (e) { done(e, canvas); };
+        img.src = camada.getTileUrl(coords);
+      });
+
+      return canvas;
+    }
+  };
+
+  var CamadaWMSRecortada = L.TileLayer.WMS.extend(RecorteSP);
+  var CamadaRecortada = L.TileLayer.extend(RecorteSP);
+
   function novaCamadaAno() {
-    return L.tileLayer.wms(WMS, {
+    return new CamadaWMSRecortada(WMS, {
+      bounds: LIMITES_SP,
       layers: CAMADA_ANO,
       format: 'image/png',
       transparent: true,
@@ -93,12 +224,13 @@
      desde 2004. Ao escolher um período ou aproximar o zoom, entra
      a camada filtrada. A grade EPSG:900913 coincide com o esquema
      XYZ do Leaflet — conferido contra o WMS, sobreposição de 0,93. */
-  var camadaGeral = L.tileLayer(
+  var camadaGeral = new CamadaRecortada(
     'https://terrabrasilis.dpi.inpe.br/geoserver/gwc/service/wmts' +
     '?service=WMTS&request=GetTile&version=1.0.0' +
     '&layer=' + CAMADA_ANO + '&style=&tilematrixset=EPSG:900913' +
     '&format=image/png&tilematrix=EPSG:900913:{z}&tilerow={y}&tilecol={x}',
     {
+      bounds: LIMITES_SP,
       pane: 'geral',
       opacity: 0.85,
       maxNativeZoom: 13,
@@ -108,7 +240,8 @@
 
   var ZOOM_DETALHE = 9;
 
-  var camadaAcum = L.tileLayer.wms(WMS, {
+  var camadaAcum = new CamadaWMSRecortada(WMS, {
+    bounds: LIMITES_SP,
     layers: CAMADA_ACUM,
     format: 'image/png',
     transparent: true,
