@@ -247,11 +247,12 @@ a { color: var(--uf); }
   position: absolute;
   z-index: 550;
   top: 12px;
-  left: 12px;
+  /* começa depois dos botões + / − do zoom do Leaflet (left 10px, ~34px de largura) */
+  left: 56px;
   display: flex;
   align-items: center;
   gap: 10px;
-  max-width: calc(100% - 24px);
+  max-width: calc(100% - 68px);
   padding: 7px 8px 7px 14px;
   font-size: .78rem;
   color: var(--txt);
@@ -588,4 +589,6 @@ dialog button { margin-top: 14px; }
   .kpis { grid-template-columns: 1fr; }
   .linha-tempo { bottom: 14px; padding: 10px 14px; }
   .popover-info { width: calc(100% - 24px); }
+  /* no celular a caixa do acumulado ocupa a largura toda: camadas descem para baixo dela */
+  .camadas { top: 58px; }
 }
